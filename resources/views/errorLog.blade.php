@@ -862,14 +862,16 @@
                     <div class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
                         <div style="margin-left: 5rem;">
 
-                            <h2 class="mt-6 text-md font-semibold text-gray-900 dark:text-white">"Http_request" : {{$err['http_request']}}</h2>
-                            <h2 class="mt-6 text-md font-semibold text-gray-900 dark:text-white">"URL" : {{$err['url']}}</h2>
-                            <h2 class="mt-6 text-md font-semibold text-gray-900 dark:text-white">"Params" : <pre>"{{$params_json}}"</pre></h2>
-                            <h2 class="mt-6 text-md font-semibold text-gray-900 dark:text-white">"File" : "{{$err['file']}}"</h2>
-                            <h2 class="mt-6 text-md font-semibold text-gray-900 dark:text-white">"Line" : "{{$err['line']}}"</h2>
-                            <h2 class="mt-6 text-md font-semibold text-gray-900 dark:text-white">"Method" : "{{$err['method']}}"</h2>
-                            <h2 class="mt-6 text-md font-semibold text-gray-900 dark:text-white">"Error" : "{{$err['error']}}"</h2>
-                            <h2 class="mt-6 text-md font-semibold text-gray-900 dark:text-white">"Timestamp" : "{{$err['timestamp']}}"</h2>
+                            <h2 class="mt-6 text-md text-gray-900 dark:text-white">"Http_request" : <i>"{{$err['http_request']}}"</i></h2>
+                            <h2 class="mt-6 text-md text-gray-900 dark:text-white">"URL" : <i>"{{$err['url']}}"</i></h2>
+                            <h2 class="mt-6 text-md text-gray-900 dark:text-white">"Params" : <i>
+                                    <pre>"{{$params_json}}"</pre>
+                                </i></h2>
+                            <h2 class="mt-6 text-md text-gray-900 dark:text-white">"File" : <i>"{{$err['file']}}"</i></h2>
+                            <h2 class="mt-6 text-md text-gray-900 dark:text-white">"Line" : <i>"{{$err['line']}}"</i></h2>
+                            <h2 class="mt-6 text-md text-gray-900 dark:text-white">"Method" : <i>"{{$err['method']}}"</i></h2>
+                            <h2 class="mt-6 text-md text-gray-900 dark:text-white">"Error" : <i>"{{$err['error']}}"</i></h2>
+                            <h2 class="mt-6 text-md text-gray-900 dark:text-white">"Timestamp" : <i>"{{$err['timestamp']}}"</i></h2>
 
                         </div>
 
