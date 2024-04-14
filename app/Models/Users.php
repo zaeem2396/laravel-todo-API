@@ -38,7 +38,7 @@ class Users extends Model
     public static function createUser(array $data)
     {
         try {
-            $existingUser = self::wher('email', $data['email'])->first();
+            $existingUser = self::where('email', $data['email'])->first();
 
             if ($existingUser) {
                 TodoResponse::error('User with this email already exists', 409);
@@ -50,7 +50,7 @@ class Users extends Model
                 TodoResponse::error('Something went wrong', 500);
             }
         } catch (\Exception $e) {
-            TodoResponse::errorLog($_SERVER['REQUEST_METHOD'], URL::full(), $data, $e->getLine(), __METHOD__, $e->getMessage(), DateTime::formatDateTime());
+            TodoResponse::errorLog($_SERVER['REQUEST_METHOD'], URL::full(), $data, __FILE__, $e->getLine(), __METHOD__, $e->getMessage(), DateTime::formatDateTime());
             TodoResponse::error('System error occured', 500);
         }
     }

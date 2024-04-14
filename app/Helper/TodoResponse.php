@@ -45,12 +45,13 @@ class TodoResponse
         exit; // Terminate the request
     }
 
-    public static function errorLog($http_request, $url, $params, $line, $method, $error, $timestamp): void
+    public static function errorLog($http_request, $url, $params, $file, $line, $method, $error, $timestamp): void
     {
         $errorLog = [
             'http_request' => $http_request,
             'url' => $url,
             'params' => $params,
+            'file' => $file,
             'line' => $line,
             'method' => $method,
             'error' => $error,
