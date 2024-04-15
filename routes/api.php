@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/', [Controller::class, 'index']);
 Route::post('/create', [UserController::class, 'create']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/refreshToken', [AuthController::class, 'refreshToken']);
 
 Route::get('/cache', function () {
 
