@@ -17,6 +17,37 @@ class AuthController extends Controller
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
+     * 
+     * * @OA\Post(
+     *     path="/api/login",
+     *     summary="Authenticate a user",
+     *     tags={"Users"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="User credentials",
+     *         @OA\JsonContent(
+     *             required={"name", "email"},
+     *             @OA\Property(property="email", type="string", format="email", maxLength=255, description="User's email"),
+     *             @OA\Property(property="password", type="string", minLength=6, description="User's password")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="User loggedIn successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="array", @OA\Items(type="string"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"))
+     *         )
+     *     )
+     * )
      */
     public function login(Request $request)
     {
@@ -51,6 +82,45 @@ class AuthController extends Controller
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
+     * 
+     * @OA\Post(
+     *     path="/api/refreshToken",
+     *     summary="Refresh a token",
+     *     tags={"Users"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Refresh a token",
+     *         @OA\JsonContent()
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Token refreshed successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="authorization", type="object",
+     *                 @OA\Property(property="access_token", type="string", description="The new access token"),
+     *                 @OA\Property(property="token_type", type="string", description="Type of token", default="bearer"),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="string", description="Error message")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="string", description="Error message")
+     *         )
+     *     )
+     * )
      */
     public function refreshToken()
     {

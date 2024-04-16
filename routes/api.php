@@ -6,6 +6,12 @@
  *     version="1.0",
  *     description="API Description"
  * )
+ * * @OA\SecurityScheme(
+ *     securityScheme="bearerAuth",
+ *     type="http",
+ *     scheme="bearer",
+ *     bearerFormat="JWT"
+ * )
  */
 
 use App\Http\Controllers\AuthController;
