@@ -6,12 +6,18 @@
  *     version="1.0",
  *     description="API Description"
  * )
+ * * @OA\SecurityScheme(
+ *     securityScheme="bearerAuth",
+ *     type="http",
+ *     scheme="bearer",
+ *     bearerFormat="JWT"
+ * )
  */
 
-
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Artisan;
 
@@ -26,11 +32,33 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 Route::get('/', [Controller::class, 'index']);
+
+// User Routes
 Route::post('/create', [UserController::class, 'create']);
+
+// Auth Routes
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/refreshToken', [AuthController::class, 'refreshToken']);
+
+// Task Routes
+Route::group(['prefix' => 'task'], function () {
+    Route::post('/create', [TaskController::class, 'create']);
+    Route::patch('/update', [TaskController::class, 'update']);
+    Route::delete('/delete', [TaskController::class, 'delete']);
+    Route::get('/taskList', [TaskController::class, 'list']);
+});
+
+Route::middleware(['check.jwt'])->group(function () {
+    // routes here
+});
+
+
+
+
+
+
 
 
 Route::get('/cache', function () {

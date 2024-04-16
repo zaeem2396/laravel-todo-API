@@ -17,12 +17,6 @@ class Controller extends BaseController
     public static function index()
     {
         $data['errorlog'] = DB::table('error_logs')->orderBy('id', 'desc')->get();
-        // var_dump($data['errorlog']);exit;
-        // foreach($data['errorlog'] as $log) {
-        //     echo "<pre>";
-        //     $err = json_decode($log->error, true);
-        //     print_r($err['http_request']);
-        // }exit;
         return view('errorLog', $data);
     }
 }

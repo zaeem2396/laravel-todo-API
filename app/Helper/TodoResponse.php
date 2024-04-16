@@ -50,7 +50,7 @@ class TodoResponse
         $errorLog = [
             'http_request' => $http_request,
             'url' => $url,
-            'params' => $params,
+            'params' => $params ? $params : null,
             'file' => $file,
             'line' => $line,
             'method' => $method,
