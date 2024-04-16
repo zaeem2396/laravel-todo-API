@@ -39,6 +39,16 @@ Route::get('/', [Controller::class, 'index']);
 Route::post('/create', [UserController::class, 'create']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/refreshToken', [AuthController::class, 'refreshToken']);
+Route::middleware(['check.jwt'])->group(function () {
+    // routes here
+});
+
+
+
+
+
+
+
 
 Route::get('/cache', function () {
 
