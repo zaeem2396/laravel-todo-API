@@ -12,7 +12,40 @@ use Illuminate\Support\Facades\Validator;
 class TaskController extends Controller
 {
     /**
-     * Show the form for creating a new resource.
+     * @OA\Post(
+     *     path="/api/task/create",
+     *     summary="Create a new task",
+     *     tags={"Task"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Task data",
+     *         @OA\JsonContent(
+     *             required={"user_id", "title", "description", "status", "due_date", "category_id"},
+     *             @OA\Property(property="user_id", type="string", maxLength=255, description="User's id"),
+     *             @OA\Property(property="title", type="string", maxLength=255, description="task title"),
+     *             @OA\Property(property="description", type="string", minLength=255, description="task description"),
+     *             @OA\Property(property="status", type="string", description="task status"),
+     *             @OA\Property(property="due_date", type="date", description="task due date"),
+     *             @OA\Property(property="category_id", type="string", description="category id")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Task created successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="array", @OA\Items(type="string"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"))
+     *         )
+     *     )
+     * )
      */
     public function create(Request $request)
     {
@@ -54,6 +87,44 @@ class TaskController extends Controller
         }
     }
 
+    /**
+     * @OA\Patch(
+     *     path="/api/task/update",
+     *     summary="Update a task",
+     *     tags={"Task"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Task data",
+     *         @OA\JsonContent(
+     *             required={"id", "user_id", "title", "description", "status", "due_date", "category_id"},
+     *             @OA\Property(property="id", type="string", maxLength=255, description="Task id"),
+     *             @OA\Property(property="user_id", type="string", maxLength=255, description="User's id"),
+     *             @OA\Property(property="title", type="string", maxLength=255, description="task title"),
+     *             @OA\Property(property="description", type="string", minLength=255, description="task description"),
+     *             @OA\Property(property="status", type="string", description="task status"),
+     *             @OA\Property(property="due_date", type="date", description="task due date"),
+     *             @OA\Property(property="category_id", type="string", description="category id")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Task updated successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="array", @OA\Items(type="string"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"))
+     *         )
+     *     )
+     * )
+     */
+
     public function update(Request $request)
     {
         try {
@@ -91,6 +162,38 @@ class TaskController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/task/delete",
+     *     summary="Delete a task",
+     *     tags={"Task"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Task data",
+     *         @OA\JsonContent(
+     *             required={"id"},
+     *             @OA\Property(property="id", type="string", maxLength=255, description="Task id")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Task deleted successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="array", @OA\Items(type="string"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"))
+     *         )
+     *     )
+     * )
+     */
+
     public function delete(Request $request)
     {
         try {
@@ -114,6 +217,34 @@ class TaskController extends Controller
             TodoResponse::error($e->getMessage(), 500);
         }
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/task/taskList",
+     *     summary="Get all tasks",
+     *     tags={"Task"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Get all task"
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Task retrived successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="array", @OA\Items(type="string"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"))
+     *         )
+     *     )
+     * )
+     */
 
     public function list(Request $request)
     {

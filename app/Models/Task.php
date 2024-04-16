@@ -79,8 +79,8 @@ class Task extends Model
                 ->select('tasks.*', 'users.name as user_name', 'categories.name as category_name')
                 ->get();
                 $data = [
-                    'mesage' => 'Tasks retrieved successfully',
-                    'data' => $tasks,
+                    'code' => 200,
+                    'task_list' => $tasks,
 
                 ];
             TodoResponse::success('Tasks retrieved successfully', $data);

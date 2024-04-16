@@ -45,9 +45,9 @@ Route::post('/refreshToken', [AuthController::class, 'refreshToken']);
 // Task Routes
 Route::group(['prefix' => 'task'], function () {
     Route::post('/create', [TaskController::class, 'create']);
-    Route::post('/update', [TaskController::class, 'update']);
-    Route::post('/delete', [TaskController::class, 'delete']);
-    Route::post('/taskList', [TaskController::class, 'list']);
+    Route::patch('/update', [TaskController::class, 'update']);
+    Route::delete('/delete', [TaskController::class, 'delete']);
+    Route::get('/taskList', [TaskController::class, 'list']);
 });
 
 Route::middleware(['check.jwt'])->group(function () {
