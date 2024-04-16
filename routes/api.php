@@ -14,10 +14,10 @@
  * )
  */
 
-use App\Http\Controllers\AuthController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Artisan;
 
@@ -32,13 +32,24 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 Route::get('/', [Controller::class, 'index']);
+
+// User Routes
 Route::post('/create', [UserController::class, 'create']);
+
+// Auth Routes
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/refreshToken', [AuthController::class, 'refreshToken']);
+
+// Task Routes
+Route::group(['prefix' => 'task'], function () {
+    Route::post('/create', [TaskController::class, 'create']);
+    Route::post('/update', [TaskController::class, 'update']);
+    Route::post('/delete', [TaskController::class, 'delete']);
+    Route::post('/taskList', [TaskController::class, 'list']);
+});
+
 Route::middleware(['check.jwt'])->group(function () {
     // routes here
 });
