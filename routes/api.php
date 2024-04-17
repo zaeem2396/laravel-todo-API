@@ -15,10 +15,7 @@
  */
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\TaskController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\{Controller, AuthController, TaskController, UserController};
 use Illuminate\Support\Facades\Artisan;
 
 /*
