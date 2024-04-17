@@ -122,20 +122,25 @@ class AuthController extends Controller
      *     )
      * )
      */
-    public function refreshToken()
+    public function refreshToken(Request $request)
     {
+        $request->validate([
+            'token' => 'required|string',
+        ]);
+        $token = $request->input('token');
         try {
-            $refreshToken = JWTAuth::parseToken()->refresh();
+            JWTAuth::setToken($token);
+            $refreshToken = JWTAuth::refresh($token);
             $data = [
                 'authorization' => [
                     'access_token' => $refreshToken,
-                    'token_type' => 'bearer'
-                ]
+                    'token_type' => 'bearer',
+                ],
             ];
-            TodoResponse::success('Refresh Token', $data);
+            TodoResponse::success('Token refreshed successfully', $data);
         } catch (JWTException $e) {
             TodoResponse::errorLog($_SERVER['REQUEST_METHOD'], URL::full(), [], __FILE__, $e->getLine(), __METHOD__, $e->getMessage(), DateTime::formatDateTime());
-            TodoResponse::error('System error occured', 500);
+            TodoResponse::error('System error occurred', 500);
         }
     }
 }
