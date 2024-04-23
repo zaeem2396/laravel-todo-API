@@ -72,7 +72,7 @@ class UserController extends Controller
      * @OA\Patch(
      *     path="/api/upadteUser",
      *     summary="Update user data",
-     *     tags={"Users"},
+     *     tags={"Profile"},
      *     security={{"BearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,

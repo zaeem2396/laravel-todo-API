@@ -553,7 +553,7 @@
         "/api/upadteUser": {
             "patch": {
                 "tags": [
-                    "Users"
+                    "Profile"
                 ],
                 "summary": "Update user data",
                 "operationId": "62da87f6f92ae32d5b6c81b1df46e594",
