@@ -16,6 +16,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{Controller, AuthController, TaskController, UserController};
+use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -34,6 +35,7 @@ Route::get('/', [Controller::class, 'index']);
 
 // User Routes
 Route::post('/create', [UserController::class, 'create']);
+Route::patch('/upadteUser', [UserController::class, 'update']);
 
 // Auth Routes
 Route::post('/login', [AuthController::class, 'login']);

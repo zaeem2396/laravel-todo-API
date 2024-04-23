@@ -86,15 +86,27 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "Refresh a token",
+                "summary": "Refresh token",
                 "description": "Handle token refresh.",
                 "operationId": "0e4750fecaa69ea16a8c2d32a542f480",
                 "requestBody": {
-                    "description": "Refresh a token",
+                    "description": "Access token",
                     "required": true,
                     "content": {
                         "application/json": {
-                            "schema": {}
+                            "schema": {
+                                "required": [
+                                    "token"
+                                ],
+                                "properties": {
+                                    "token": {
+                                        "description": "Access token",
+                                        "type": "string",
+                                        "format": "token"
+                                    }
+                                },
+                                "type": "object"
+                            }
                         }
                     }
                 },
@@ -105,19 +117,11 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "authorization": {
-                                            "properties": {
-                                                "access_token": {
-                                                    "description": "The new access token",
-                                                    "type": "string"
-                                                },
-                                                "token_type": {
-                                                    "description": "Type of token",
-                                                    "type": "string",
-                                                    "default": "bearer"
-                                                }
-                                            },
-                                            "type": "object"
+                                        "success": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -132,24 +136,10 @@
                                 "schema": {
                                     "properties": {
                                         "error": {
-                                            "description": "Error message",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "error": {
-                                            "description": "Error message",
-                                            "type": "string"
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -157,12 +147,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/api/task/create": {
@@ -302,7 +287,7 @@
                                     "description": {
                                         "description": "task description",
                                         "type": "string",
-                                        "minLength": 255
+                                        "maxLength": 255
                                     },
                                     "status": {
                                         "description": "task status",
@@ -438,21 +423,20 @@
                 ],
                 "summary": "Get all tasks",
                 "operationId": "e9cfcbc75683b4eac5d685fc5cd21663",
-                "requestBody": {
-                    "description": "Get all task",
-                    "required": true
-                },
                 "responses": {
                     "200": {
-                        "description": "Task retrived successfully",
+                        "description": "Tasks retrieved successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
                                             "type": "array",
                                             "items": {
-                                                "type": "string"
+                                                "$ref": "app/Http/Controllers/TaskController"
                                             }
                                         }
                                     },
@@ -461,17 +445,15 @@
                             }
                         }
                     },
-                    "422": {
-                        "description": "Validation error",
+                    "500": {
+                        "description": "Internal server error",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "error": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
+                                            "type": "string",
+                                            "example": "An error occurred while fetching tasks"
                                         }
                                     },
                                     "type": "object"
@@ -566,6 +548,88 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/upadteUser": {
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update user data",
+                "operationId": "62da87f6f92ae32d5b6c81b1df46e594",
+                "requestBody": {
+                    "description": "User data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "User's name",
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "email": {
+                                        "description": "User's email",
+                                        "type": "string",
+                                        "format": "email",
+                                        "maxLength": 255
+                                    },
+                                    "password": {
+                                        "description": "User's password",
+                                        "type": "string",
+                                        "minLength": 6
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Password confirmation",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User data updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header"
             }
         }
     }

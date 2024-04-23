@@ -83,25 +83,24 @@ class AuthController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * 
-     * @OA\Post(
+     * * @OA\Post(
      *     path="/api/refreshToken",
-     *     summary="Refresh a token",
+     *     summary="Refresh token",
      *     tags={"Users"},
-     *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
      *         required=true,
-     *         description="Refresh a token",
-     *         @OA\JsonContent()
+     *         description="Access token",
+     *         @OA\JsonContent(
+     *             required={"token"},
+     *             @OA\Property(property="token", type="string", format="token", description="Access token"),
+     *         )
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Token refreshed successfully",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="authorization", type="object",
-     *                 @OA\Property(property="access_token", type="string", description="The new access token"),
-     *                 @OA\Property(property="token_type", type="string", description="Type of token", default="bearer"),
-     *             )
+     *             @OA\Property(property="success", type="array", @OA\Items(type="string"))
      *         )
      *     ),
      *     @OA\Response(
@@ -109,15 +108,7 @@ class AuthController extends Controller
      *         description="Validation error",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="error", type="string", description="Error message")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized",
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="error", type="string", description="Error message")
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"))
      *         )
      *     )
      * )

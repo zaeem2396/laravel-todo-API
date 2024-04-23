@@ -54,4 +54,23 @@ class Users extends Model
             TodoResponse::error('System error occured', 500);
         }
     }
+
+    public static function updateUser(array $data)
+    {
+        try {
+            $user = self::where('id', $data['id'])->first();
+            if (!$user) {
+                TodoResponse::error('User not found', 404);
+            }
+            $user->update($data);
+            if ($user) {
+                TodoResponse::success('User updated successfully', 200);
+            } else {
+                TodoResponse::error('Something went wrong', 500);
+            }
+        } catch (\Exception $e) {
+            TodoResponse::errorLog($_SERVER['REQUEST_METHOD'], URL::full(), $data, __FILE__, $e->getLine(), __METHOD__, $e->getMessage(), DateTime::formatDateTime());
+            TodoResponse::error('System error occured', 500);
+        }
+    }
 }

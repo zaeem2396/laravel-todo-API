@@ -154,6 +154,11 @@ return [
         */
         'securityDefinitions' => [
             'securitySchemes' => [
+                'BearerAuth' => [
+                    'type' => 'apiKey',
+                    'name' => 'Authorization',
+                    'in' => 'header',
+                ],
                 /*
                  * Examples of Security schemes
                 */
@@ -212,8 +217,7 @@ return [
                     ],
 
                     'passport' => []
-                    */
-                ],
+                    */],
             ],
         ],
 

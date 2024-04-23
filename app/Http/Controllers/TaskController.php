@@ -11,6 +11,21 @@ use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
+
+    /**
+     * @OA\Schema(
+     *     schema="Task",
+     *     type="object",
+     *     required={"id", "title", "description", "status", "due_date", "category_id"},
+     *     @OA\Property(property="id", type="integer"),
+     *     @OA\Property(property="title", type="string"),
+     *     @OA\Property(property="description", type="string"),
+     *     @OA\Property(property="status", type="string"),
+     *     @OA\Property(property="due_date", type="string", format="date-time"),
+     *     @OA\Property(property="category_id", type="integer")
+     * )
+     */
+
     /**
      * @OA\Post(
      *     path="/api/task/create",
@@ -100,7 +115,7 @@ class TaskController extends Controller
      *             @OA\Property(property="id", type="string", maxLength=255, description="Task id"),
      *             @OA\Property(property="user_id", type="string", maxLength=255, description="User's id"),
      *             @OA\Property(property="title", type="string", maxLength=255, description="task title"),
-     *             @OA\Property(property="description", type="string", minLength=255, description="task description"),
+     *             @OA\Property(property="description", type="string", maxLength=255, description="task description"),
      *             @OA\Property(property="status", type="string", description="task status"),
      *             @OA\Property(property="due_date", type="date", description="task due date"),
      *             @OA\Property(property="category_id", type="string", description="category id")
@@ -223,24 +238,21 @@ class TaskController extends Controller
      *     path="/api/task/taskList",
      *     summary="Get all tasks",
      *     tags={"Task"},
-     *     @OA\RequestBody(
-     *         required=true,
-     *         description="Get all task"
-     *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Task retrived successfully",
+     *         description="Tasks retrieved successfully",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="success", type="array", @OA\Items(type="string"))
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="app/Http/Controllers/TaskController"))
      *         )
      *     ),
      *     @OA\Response(
-     *         response=422,
-     *         description="Validation error",
+     *         response=500,
+     *         description="Internal server error",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="error", type="array", @OA\Items(type="string"))
+     *             @OA\Property(property="error", type="string", example="An error occurred while fetching tasks")
      *         )
      *     )
      * )
