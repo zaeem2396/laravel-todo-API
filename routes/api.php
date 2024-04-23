@@ -37,7 +37,7 @@ Route::get('/', [Controller::class, 'index']);
 Route::post('/create', [UserController::class, 'create']);
 Route::patch('/upadteUser', [UserController::class, 'update']);
 Route::get('/profile', [UserController::class, 'getProfile']);
-
+Route::get('/getTaskList', [UserController::class, 'getTasks']);
 // Auth Routes
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/refreshToken', [AuthController::class, 'refreshToken']);

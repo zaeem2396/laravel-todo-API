@@ -71,18 +71,22 @@ class Task extends Model
         }
     }
 
-    public static function getTasks()
+    public static function getTasks($user_id = null)
     {
         try {
-            $tasks = DB::table('tasks')->join('users', 'users.id', '=', 'tasks.user_id')
+            $tasks = DB::table('tasks')
+                ->join('users', 'users.id', '=', 'tasks.user_id')
                 ->join('categories', 'categories.id', '=', 'tasks.category_id')
-                ->select('tasks.*', 'users.name as user_name', 'categories.name as category_name')
-                ->get();
-                $data = [
-                    'code' => 200,
-                    'task_list' => $tasks,
+                ->select('tasks.*', 'users.name as user_name', 'categories.name as task_type');
+            if ($user_id) {
+                $tasks = $tasks->where('user_id', '=', $user_id);
+            }
+            $tasks = $tasks->get();
+            $data = [
+                'code' => 200,
+                'task_list' => $tasks,
 
-                ];
+            ];
             TodoResponse::success('Tasks retrieved successfully', $data);
         } catch (\Exception $e) {
             TodoResponse::errorLog($_SERVER['REQUEST_METHOD'], URL::full(), [], __FILE__, $e->getLine(), __METHOD__, $e->getMessage(), DateTime::formatDateTime());
