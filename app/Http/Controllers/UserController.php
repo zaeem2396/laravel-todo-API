@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helper\TodoResponse;
-use App\Models\{User, Users};
+use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
@@ -128,6 +128,47 @@ class UserController extends Controller
         $inputData['id'] = $authenticatedUser->id;
 
         $userResponse = Users::updateUser($inputData);
+        return $userResponse;
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/profile",
+     *     summary="Get user profile",
+     *     tags={"Profile"},
+     *     security={{"BearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="User profile fetched successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="id", type="integer", example="1"),
+     *                 @OA\Property(property="name", type="string", example="John Doe"),
+     *                 @OA\Property(property="email", type="string", format="email", example="john@example.com"),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="string")
+     *         )
+     *     )
+     * )
+     */
+
+    public function getProfile()
+    {
+        try {
+            $authenticatedUser = JWTAuth::parseToken()->authenticate();
+        } catch (\Exception $e) {
+            TodoResponse::error($e->getMessage(), 401);
+        }
+        $userResponse = Users::getUser($authenticatedUser->id);
         return $userResponse;
     }
 }

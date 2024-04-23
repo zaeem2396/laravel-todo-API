@@ -36,6 +36,7 @@ Route::get('/', [Controller::class, 'index']);
 // User Routes
 Route::post('/create', [UserController::class, 'create']);
 Route::patch('/upadteUser', [UserController::class, 'update']);
+Route::get('/profile', [UserController::class, 'getProfile']);
 
 // Auth Routes
 Route::post('/login', [AuthController::class, 'login']);
