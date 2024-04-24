@@ -16,7 +16,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{Controller, AuthController, TaskController, UserController};
-use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -48,7 +47,7 @@ Route::group(['prefix' => 'task'], function () {
     Route::post('/create', [TaskController::class, 'create']);
     Route::patch('/update', [TaskController::class, 'update']);
     Route::delete('/delete', [TaskController::class, 'delete']);
-    Route::get('/taskList', [TaskController::class, 'list']);
+    Route::post('/taskList', [TaskController::class, 'list']);
 });
 
 Route::middleware(['check.jwt'])->group(function () {

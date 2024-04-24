@@ -6,7 +6,6 @@ use App\Helper\DateTime;
 use App\Helper\TodoResponse;
 use App\Models\Task;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
@@ -154,7 +153,7 @@ class TaskController extends Controller
     public function update(Request $request)
     {
         try {
-            if(!JWTAuth::getToken()) {
+            if (!JWTAuth::getToken()) {
                 TodoResponse::error('Token not provided', 401);
             }
             $isAdmin = JWTAuth::parseToken()->authenticate()->role; // Get the role of the user
@@ -260,6 +259,7 @@ class TaskController extends Controller
      *     path="/api/task/taskList",
      *     summary="Get all tasks",
      *     tags={"Task"},
+     *      security={{"BearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Tasks retrieved successfully",
@@ -280,10 +280,23 @@ class TaskController extends Controller
      * )
      */
 
-    public function list()
+    public function list(Request $request)
     {
         try {
-            $taskResponse = Task::getTasks();
+            if (!JWTAuth::getToken()) {
+                TodoResponse::error('Token not provided', 401);
+            }
+            $task_id = $request->input('task_id');
+            $isAdmin = JWTAuth::parseToken()->authenticate()->role; // Get the role of the user
+
+            if ($isAdmin != 'Admin')
+                TodoResponse::error('You are not authorized to perform this action', 401);
+
+            if ($task_id) {
+                $taskResponse = Task::getTasks($task_id);
+            } else {
+                $taskResponse = Task::getTasks();
+            }
             return $taskResponse;
         } catch (\Exception $e) {
             TodoResponse::errorLog($_SERVER['REQUEST_METHOD'], URL::full(), [], __FILE__, $e->getLine(), __METHOD__, $e->getMessage(), DateTime::formatDateTime());

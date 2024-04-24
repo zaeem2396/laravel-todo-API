@@ -71,16 +71,19 @@ class Task extends Model
         }
     }
 
-    public static function getTasks($user_id = null)
+    public static function getTasks($user_id = null, $task_id = null)
     {
         try {
             $tasks = DB::table('tasks')
                 ->join('users', 'users.id', '=', 'tasks.user_id')
                 ->join('categories', 'categories.id', '=', 'tasks.category_id')
                 ->select('tasks.*', 'users.name as user_name', 'categories.name as task_type');
-            if ($user_id) {
+
+            if ($user_id)
                 $tasks = $tasks->where('user_id', '=', $user_id);
-            }
+
+            if ($task_id)
+                $tasks = $tasks->where('tasks.id', '=', $task_id);
             $tasks = $tasks->get();
             $data = [
                 'code' => 200,
