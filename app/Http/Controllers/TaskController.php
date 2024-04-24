@@ -6,8 +6,10 @@ use App\Helper\DateTime;
 use App\Helper\TodoResponse;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class TaskController extends Controller
 {
@@ -107,6 +109,7 @@ class TaskController extends Controller
      *     path="/api/task/update",
      *     summary="Update a task",
      *     tags={"Task"},
+     *     security={{"BearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         description="Task data",
@@ -130,6 +133,14 @@ class TaskController extends Controller
      *         )
      *     ),
      *     @OA\Response(
+     *         response=401,
+     *         description="Token not provided",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"))
+     *         ),
+     *     ),
+     *     @OA\Response(
      *         response=422,
      *         description="Validation error",
      *         @OA\JsonContent(
@@ -143,20 +154,31 @@ class TaskController extends Controller
     public function update(Request $request)
     {
         try {
-            $inputData = $request->only('id', 'user_id', 'title', 'description', 'status', 'due_date', 'category_id');
+            if(!JWTAuth::getToken()) {
+                TodoResponse::error('Token not provided', 401);
+            }
+            $isAdmin = JWTAuth::parseToken()->authenticate()->role; // Get the role of the user
+            $inputData = $request->only('id', 'title', 'description', 'status', 'due_date', 'category_id');
             $rules = [
                 'id' => 'required|exists:tasks,id',
-                'user_id' => 'required|exists:users,id',
                 'title' => 'required|string|max:255',
                 'description' => 'required|string',
                 'status' => 'required|in:pending,completed',
                 'due_date' => 'required|date',
                 'category_id' => 'required|exists:categories,id',
             ];
+
+            // Check if user is admin or not 
+            if ($isAdmin != 'Admin') {
+                unset($rules['title']);
+                unset($rules['description']);
+                unset($rules['due_date']);
+                unset($rules['category_id']);
+                TodoResponse::error('You are not authorized to perform this action', 401);
+            }
+
             $errorCode = [
                 'id.required' => 'Task ID is required',
-                'user_id.required' => 'User ID is required',
-                'user_id.exists' => 'Invalid User ID',
                 'title.required' => 'Title is required',
                 'title.string' => 'Title must be a string',
                 'title.max' => 'Title must be less than 255 characters',
@@ -168,7 +190,7 @@ class TaskController extends Controller
             if ($validateUpdatetaskData->fails()) {
                 TodoResponse::error($validateUpdatetaskData->errors()->all(), 400);
             } else {
-                $taskResponse = Task::updateTask($inputData, $inputData['id']);
+                $taskResponse = Task::updateTask($inputData, $inputData['id'], JWTAuth::parseToken()->authenticate()->id);
                 return $taskResponse;
             }
         } catch (\Exception $e) {

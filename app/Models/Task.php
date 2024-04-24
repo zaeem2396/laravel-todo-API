@@ -39,10 +39,10 @@ class Task extends Model
         }
     }
 
-    public static function updateTask(array $data, $id)
+    public static function updateTask(array $data, $id, $user_id)
     {
         try {
-            $task = self::find($id);
+            $task = self::where('id', $id)->where('user_id', $user_id)->first();
             if ($task) {
                 $task->update($data);
                 TodoResponse::success('Task updated successfully', 200);
