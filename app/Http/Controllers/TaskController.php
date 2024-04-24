@@ -203,6 +203,7 @@ class TaskController extends Controller
      *     path="/api/task/delete",
      *     summary="Delete a task",
      *     tags={"Task"},
+     *     security={{"BearerAuth":{}}}, 
      *     @OA\RequestBody(
      *         required=true,
      *         description="Task data",
@@ -233,6 +234,13 @@ class TaskController extends Controller
     public function delete(Request $request)
     {
         try {
+            if (!JWTAuth::getToken()) {
+                TodoResponse::error('Token not provided', 401);
+            }
+            $isAdmin = JWTAuth::parseToken()->authenticate()->role; // Get the role of the user
+
+            if ($isAdmin != 'Admin')
+                TodoResponse::error('You are not authorized to perform this action', 401);
             $inputData = $request->only('id');
             $rules = [
                 'id' => 'required|exists:tasks,id',
@@ -259,7 +267,7 @@ class TaskController extends Controller
      *     path="/api/task/taskList",
      *     summary="Get all tasks",
      *     tags={"Task"},
-     *      security={{"BearerAuth":{}}},
+     *     security={{"BearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Tasks retrieved successfully",
