@@ -710,14 +710,48 @@
                                                     "type": "integer",
                                                     "example": "1"
                                                 },
-                                                "name": {
-                                                    "type": "string",
-                                                    "example": "John Doe"
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": "1"
                                                 },
-                                                "email": {
+                                                "title": {
                                                     "type": "string",
-                                                    "format": "email",
-                                                    "example": "john@example.com"
+                                                    "example": "Task title"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Task description"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "Completed | Pending"
+                                                },
+                                                "due_date": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "01-01-2000"
+                                                },
+                                                "category_id": {
+                                                    "type": "string",
+                                                    "example": "4"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "01-01-2000"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "01-01-2000"
+                                                },
+                                                "user_name": {
+                                                    "type": "string",
+                                                    "example": "John doe"
+                                                },
+                                                "task_type": {
+                                                    "type": "string",
+                                                    "example": "Urgent | Work | Personal"
                                                 }
                                             },
                                             "type": "object"

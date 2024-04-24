@@ -258,7 +258,7 @@ class TaskController extends Controller
      * )
      */
 
-    public function list(Request $request)
+    public function list()
     {
         try {
             $taskResponse = Task::getTasks();

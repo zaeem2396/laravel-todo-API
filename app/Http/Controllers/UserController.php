@@ -186,8 +186,16 @@ class UserController extends Controller
      *             @OA\Property(property="success", type="boolean"),
      *             @OA\Property(property="data", type="object",
      *                 @OA\Property(property="id", type="integer", example="1"),
-     *                 @OA\Property(property="name", type="string", example="John Doe"),
-     *                 @OA\Property(property="email", type="string", format="email", example="john@example.com"),
+     *                 @OA\Property(property="user_id", type="integer", example="1"),
+     *                 @OA\Property(property="title", type="string", example="Task title"),
+     *                 @OA\Property(property="description", type="string", example="Task description"),
+     *                 @OA\Property(property="status", type="string", example="Completed | Pending"),
+     *                 @OA\Property(property="due_date", type="date", example="01-01-2000"),
+     *                 @OA\Property(property="category_id", type="string",  example="4"),
+     *                 @OA\Property(property="created_at", type="date",  example="01-01-2000"),
+     *                 @OA\Property(property="updated_at", type="date",  example="01-01-2000"),
+     *                 @OA\Property(property="user_name", type="string",  example="John doe"),
+     *                 @OA\Property(property="task_type", type="string",  example="Urgent | Work | Personal"),
      *             )
      *         )
      *     ),
