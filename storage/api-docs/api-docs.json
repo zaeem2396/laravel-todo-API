@@ -436,7 +436,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/task/taskList": {
@@ -459,7 +464,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "type": "string"
+                                                "$ref": "app/Http/Controllers/TaskController"
                                             }
                                         }
                                     },
