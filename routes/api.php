@@ -52,7 +52,7 @@ Route::group(['prefix' => 'task'], function () {
 
 // Category routes
 Route::group(['prefix' => 'category'], function () {
-    Route::post('/create', [CategoryController::class, 'createCategory']);
+    Route::post('/create', [CategoryController::class, 'create']);
 });
 
 Route::middleware(['check.jwt'])->group(function () {
