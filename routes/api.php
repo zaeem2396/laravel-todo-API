@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Artisan;
 
 
 Route::get('/', [Controller::class, 'index']);
-
+Route::get('/send', [Controller::class, 'sendMail']);
 // User Routes
 Route::post('/create', [UserController::class, 'create']);
 Route::patch('/upadteUser', [UserController::class, 'update']);
