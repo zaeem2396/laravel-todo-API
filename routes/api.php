@@ -15,7 +15,8 @@
  */
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{Controller, AuthController, TaskController, UserController};
+use App\Http\Controllers\{Controller, AuthController, CategoryController, TaskController, UserController};
+use App\Models\Category;
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -48,6 +49,12 @@ Route::group(['prefix' => 'task'], function () {
     Route::patch('/update', [TaskController::class, 'update']);
     Route::delete('/delete', [TaskController::class, 'delete']);
     Route::post('/taskList', [TaskController::class, 'list']);
+});
+
+// Category routes
+Route::group(['prefix' => 'category'], function () {
+    Route::post('/create', [CategoryController::class, 'create']);
+    Route::post('/update', [CategoryController::class, 'categoryProcess']);
 });
 
 Route::middleware(['check.jwt'])->group(function () {
