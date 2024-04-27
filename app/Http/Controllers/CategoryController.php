@@ -10,6 +10,58 @@ use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class CategoryController extends Controller
 {
+
+    /**
+     * @OA\Schema(
+     *     schema="Categories",
+     *     type="object",
+     *     required={"id", "name"},
+     *     @OA\Property(property="id", type="integer"),
+     *     @OA\Property(property="name", type="string")
+     * )
+     */
+
+    /**
+     * @OA\Post(
+     *     path="/api/category/create",
+     *     summary="Create or Update a new Category",
+     *     tags={"Category"},
+     *     security={{"BearerAuth":{}}}, 
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Category data",
+     *         @OA\JsonContent(
+     *             required={"name", "action"},
+     *             @OA\Property(property="name", type="string", maxLength=255, description="Category name"),
+     *             @OA\Property(property="action", type="string", maxLength=255, description="Category action")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Category created OR updated successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="array", @OA\Items(type="string"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=409,
+     *         description="Category already exist",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="array", @OA\Items(type="string"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"))
+     *         )
+     *     )
+     * )
+     */
     public function create(Request $request)
     {
         try {
@@ -43,6 +95,49 @@ class CategoryController extends Controller
             TodoResponse::error($e->getMessage(), 500);
         }
     }
+
+    /**
+     * @OA\Post(
+     *     path="/api/category/update",
+     *     summary="Update or Delete a new Category",
+     *     tags={"Category"},
+     *     security={{"BearerAuth":{}}}, 
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Category data",
+     *         @OA\JsonContent(
+     *             required={"id", "name", "action"},
+     *             @OA\Property(property="id", type="string", maxLength=255, description="Category Id"),
+     *             @OA\Property(property="name", type="string", maxLength=255, description="Category name"),
+     *             @OA\Property(property="action", type="string", maxLength=255, description="Category action")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Category updated OR deleted successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="array", @OA\Items(type="string"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=409,
+     *         description="Category does not exist",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="array", @OA\Items(type="string"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"))
+     *         )
+     *     )
+     * )
+     */
 
     public function categoryProcess(Request $request)
     {

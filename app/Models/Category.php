@@ -21,14 +21,31 @@ class Category extends Model
     public static function createOrGetCategory(array $inputData)
     {
         try {
-            $categoryExist = self::where('name', $inputData['name'])->first();
-            if ($categoryExist) {
-                TodoResponse::error('Category already exist', 409);
-            } else {
-                $category = self::create(['name' => $inputData['name']]);
-                if ($category) {
-                    TodoResponse::success('Category created successfully', 200);
-                }
+            switch ($inputData['action']) {
+                case 'POST':
+                    $categoryExist = self::where('name', $inputData['name'])->first();
+                    if ($categoryExist) {
+                        TodoResponse::success('Category already exist', 200);
+                    }
+                    $category = self::create(['name' => $inputData['name']]);
+                    if ($category) {
+                        TodoResponse::success('Category created successfully', 201);
+                    } else {
+                        TodoResponse::error('System error occured', 500);
+                    }
+                    break;
+                case 'GET':
+                    $category = self::all();
+                    if ($category) {
+                        $data = [
+                            'status' => 200,
+                            'categories' => $category
+                        ];
+                        TodoResponse::success('Category fetched successfully', $data);
+                    } else {
+                        TodoResponse::error('System error occured', 404);
+                    }
+                    break;
             }
         } catch (\Exception $e) {
             TodoResponse::errorLog($_SERVER['REQUEST_METHOD'], URL::full(), $inputData, __FILE__, $e->getLine(), __METHOD__, $e->getMessage(), DateTime::formatDateTime());
