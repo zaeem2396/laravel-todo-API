@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use App\Helper\TodoResponse;
+use App\Services\Brevo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 
@@ -45,7 +46,10 @@ class Users extends Model
             }
             $user = self::create($data);
             if ($user) {
-                TodoResponse::success('User created successfully', 200);
+                $emailResponse = Brevo::sendMail($data['name'], $data['email']);
+                if ($emailResponse['code'] == 200) {
+                    TodoResponse::success('User created successfully', 200);
+                }
             } else {
                 TodoResponse::error('Something went wrong', 500);
             }
