@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use App\Helper\TodoResponse;
 use App\Services\Brevo;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 
 class Users extends Model
