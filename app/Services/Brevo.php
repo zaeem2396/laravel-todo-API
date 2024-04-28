@@ -26,7 +26,7 @@ class Brevo
             'sender' => ['name' => 'no-reply', 'email' => 'no-reply@laravel.com'],
             'replyTo' => ['name' => 'no-reply', 'email' => 'no-reply@laravel.com'],
             'to' => [['name' => $name, 'email' => $email]],
-            'htmlContent' => str_replace('[[name]]', 'zaeem', $temp->template)
+            'htmlContent' => str_replace('[[name]]', $name, $temp->template)
         ]);
 
         try {
