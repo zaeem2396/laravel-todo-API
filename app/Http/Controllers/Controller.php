@@ -24,10 +24,7 @@ class Controller extends BaseController
 
     public static function file(Request $request)
     {
-        $file = $request->file('file');
-        $uploadedFile = Cloudinary::upload($file->getRealPath(), [
-            'folder' => 'laravel-todo-app'
-        ]);
-        return $uploadedFile;
+        $file = $request->file('file')->getClientOriginalName();
+        return $file;
     }
 }

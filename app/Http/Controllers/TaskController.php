@@ -66,7 +66,7 @@ class TaskController extends Controller
     public function create(Request $request)
     {
         try {
-            $inputData = $request->only('user_id', 'title', 'description', 'status', 'due_date', 'category_id');
+            $inputData = $request->only('user_id', 'title', 'description', 'status', 'due_date', 'category_id', 'file');
             $rules = [
                 'user_id' => 'required|exists:users,id',
                 'title' => 'required|string|max:255',
@@ -74,6 +74,7 @@ class TaskController extends Controller
                 'status' => 'required|in:pending,completed',
                 'due_date' => 'required|date',
                 'category_id' => 'required|exists:categories,id',
+                'file' => 'required|file|mimes:jpeg,png,jpg,pdf'
             ];
             $errorCode = [
                 'user_id.required' => 'User ID is required',
@@ -89,6 +90,9 @@ class TaskController extends Controller
                 'due_date.date' => 'Invalid due date',
                 'category_id.required' => 'Task category is required',
                 'category_id.exists' => 'Invalid category ID',
+                'file.required' => 'File is required',
+                'file.file' => 'Invalid file',
+                'file.mimes' => 'Invalid file type'
             ];
             $validateTaskData = Validator::make($inputData, $rules, $errorCode);
             if ($validateTaskData->fails()) {
