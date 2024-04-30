@@ -35,14 +35,18 @@ class TaskController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         description="Task data",
-     *         @OA\JsonContent(
-     *             required={"user_id", "title", "description", "status", "due_date", "category_id"},
-     *             @OA\Property(property="user_id", type="string", maxLength=255, description="User's id"),
-     *             @OA\Property(property="title", type="string", maxLength=255, description="task title"),
-     *             @OA\Property(property="description", type="string", minLength=255, description="task description"),
-     *             @OA\Property(property="status", type="string", description="task status"),
-     *             @OA\Property(property="due_date", type="date", description="task due date"),
-     *             @OA\Property(property="category_id", type="string", description="category id")
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 required={"user_id", "title", "description", "status", "due_date", "category_id", "file"},
+     *                 @OA\Property(property="user_id", type="string", maxLength=255, description="User's id"),
+     *                 @OA\Property(property="title", type="string", maxLength=255, description="task title"),
+     *                 @OA\Property(property="description", type="string", minLength=255, description="task description"),
+     *                 @OA\Property(property="status", type="string", description="task status"),
+     *                 @OA\Property(property="due_date", type="date", description="task due date"),
+     *                 @OA\Property(property="category_id", type="string", description="category id"),
+     *                 @OA\Property(property="file", type="string", format="binary", description="File upload")
+     *             )
      *         )
      *     ),
      *     @OA\Response(
@@ -63,6 +67,7 @@ class TaskController extends Controller
      *     )
      * )
      */
+
     public function create(Request $request)
     {
         try {
@@ -97,7 +102,7 @@ class TaskController extends Controller
             $validateTaskData = Validator::make($inputData, $rules, $errorCode);
             if ($validateTaskData->fails()) {
                 TodoResponse::error($validateTaskData->errors()->all(), 400);
-            } else { 
+            } else {
                 $taskResponse = Task::createTask($inputData);
                 return $taskResponse;
             }

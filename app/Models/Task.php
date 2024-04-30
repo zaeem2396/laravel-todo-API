@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use App\Helper\Cloudinary;
-use App\Helper\DateTime;
+use App\Helper\{DateTime, Cloudinary, TodoResponse};
 use App\Models\Attachments;
-use App\Helper\TodoResponse;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
