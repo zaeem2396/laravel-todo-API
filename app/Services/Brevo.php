@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\DB;
 
 class Brevo
 {
-    public static function sendMail($name, $email)
+    public static function sendMail($template_name, $name, $email)
     {
-        $temp = DB::table('templates')->where('template_name', 'welcome')->first();
+        $temp = DB::table('templates')->where('template_name', $template_name)->first();
         $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', env('BREVO_API_KEY'));
 
         $apiInstance = new TransactionalEmailsApi(
