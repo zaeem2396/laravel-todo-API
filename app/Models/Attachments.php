@@ -25,7 +25,7 @@ class Attachments extends Model
     public static function uploadAttachments($task_id, $filename, $path)
     {
         try {
-            $attachments = self::create([
+            self::create([
                 'task_id' => $task_id,
                 'filename' => $filename,
                 'path' => $path
