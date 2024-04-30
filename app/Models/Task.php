@@ -31,10 +31,8 @@ class Task extends Model
     public static function createTask(array $data)
     {
         try {
-            return $data;
             $task = self::create($data);
-            $attachment = Attachments::uploadAttachments($task['id'], $data['file']->getClientOriginalName(), Cloudinary::fileUpload($data['file']));
-            return $attachment;
+            Attachments::uploadAttachments($task['id'], $data['file']->getClientOriginalName(), Cloudinary::fileUpload($data['file']));
             if ($task) {
                 TodoResponse::success('Task created successfully', 200);
             }

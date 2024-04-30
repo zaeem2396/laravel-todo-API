@@ -14,7 +14,7 @@ class Cloudinary
 
     public static function fileUpload($image)
     {
-        $uploadedFile = Cloud::upload($image, [
+        $uploadedFile = Cloud::upload($image->getRealPath(), [
             'folder' => env('CLOUDINARY_UPLOAD_FOLDER')
         ]);
         return $uploadedFile->getSecurePath();

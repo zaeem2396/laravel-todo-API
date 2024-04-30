@@ -97,7 +97,7 @@ class TaskController extends Controller
             $validateTaskData = Validator::make($inputData, $rules, $errorCode);
             if ($validateTaskData->fails()) {
                 TodoResponse::error($validateTaskData->errors()->all(), 400);
-            } else {
+            } else { 
                 $taskResponse = Task::createTask($inputData);
                 return $taskResponse;
             }
