@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Helper\DateTime;
-use App\Helper\TodoResponse;
+use App\Helper\{DateTime, Cloudinary, TodoResponse};
+use App\Models\Attachments;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -30,6 +30,7 @@ class Task extends Model
     {
         try {
             $task = self::create($data);
+            Attachments::uploadAttachments($task['id'], $data['file']->getClientOriginalName(), Cloudinary::fileUpload($data['file']));
             if ($task) {
                 TodoResponse::success('Task created successfully', 200);
             }

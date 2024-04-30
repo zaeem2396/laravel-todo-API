@@ -45,7 +45,7 @@ class Users extends Model
             }
             $user = self::create($data);
             if ($user) {
-                $emailResponse = Brevo::sendMail($data['name'], $data['email']);
+                $emailResponse = Brevo::sendMail('welcome', $data['name'], $data['email']);
                 if ($emailResponse['code'] == 200) {
                     TodoResponse::success('User created successfully', 200);
                 }

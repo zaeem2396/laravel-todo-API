@@ -361,7 +361,7 @@
                     "description": "Task data",
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "required": [
                                     "user_id",
@@ -369,7 +369,8 @@
                                     "description",
                                     "status",
                                     "due_date",
-                                    "category_id"
+                                    "category_id",
+                                    "file"
                                 ],
                                 "properties": {
                                     "user_id": {
@@ -399,6 +400,11 @@
                                     "category_id": {
                                         "description": "category id",
                                         "type": "string"
+                                    },
+                                    "file": {
+                                        "description": "File upload",
+                                        "type": "string",
+                                        "format": "binary"
                                     }
                                 },
                                 "type": "object"

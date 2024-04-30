@@ -16,7 +16,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{Controller, AuthController, CategoryController, TaskController, UserController};
-use App\Models\Category;
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -32,7 +31,7 @@ use Illuminate\Support\Facades\Artisan;
 
 
 Route::get('/', [Controller::class, 'index']);
-Route::get('/send', [Controller::class, 'sendMail']);
+Route::post('/image', [Controller::class, 'file']);
 // User Routes
 Route::post('/create', [UserController::class, 'create']);
 Route::patch('/upadteUser', [UserController::class, 'update']);
