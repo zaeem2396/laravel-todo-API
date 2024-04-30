@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use App\Helper\DateTime;
+use App\Helper\{DateTime, TodoResponse};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
-use App\Helper\TodoResponse;
 use App\Services\Brevo;
 use Illuminate\Support\Facades\URL;
 

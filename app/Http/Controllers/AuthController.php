@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Helper\DateTime;
-use App\Helper\TodoResponse;
+use App\Helper\{DateTime, TodoResponse};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
