@@ -865,7 +865,7 @@
                             <h2 class="mt-6 text-md text-gray-900 dark:text-white">"Request Method" : <i>"{{$err['http_request']}}"</i></h2>
                             <h2 class="mt-6 text-md text-gray-900 dark:text-white">"URL" : <i>"{{$err['url']}}"</i></h2>
                             <h2 class="mt-6 text-md text-gray-900 dark:text-white">"Params" : <i>
-                                    <pre>"{{$params_json}}"</pre>
+                                    <pre>"{{wordwrap($params_json)}}"</pre>
                                 </i></h2>
                             <h2 class="mt-6 text-md text-gray-900 dark:text-white">"File" : <i>"{{$err['file']}}"</i></h2>
                             <h2 class="mt-6 text-md text-gray-900 dark:text-white">"Line" : <i>"{{$err['line']}}"</i></h2>
